@@ -5,31 +5,28 @@
   <h2>年龄：{{age}}</h2>
   <h3>工作种类：{{job.type}}</h3>
   <h3>工作薪水：{{job.salary}}</h3>
-  <h3>爱好：{{hobby}}</h3>
   <button @click="changeInfo">修改人的信息</button>
 </template>
 
 <script>
-import {ref,reactive} from 'vue' // 改了这里
+import {ref} from 'vue'
 export default {
   name: 'App',
   setup(){
-    // 数据（可以将下面属性放到一个person对象里面，只用reactive，这里代码我没敲）
-    let name = ref('张三')  
+    // 数据
+    let name = ref('张三')  // 包装成一个RefImpl实例对象
     let age = ref(18)
-    let job = reactive({   // 改了这里
+    let job = ref({   // 包装成一个Proxy实例对象
       type:'前端工程师',
       salary:'30K'
     })
-    let hobby = ['抽烟','喝酒','烫头']
 
     // 方法
     function changeInfo(){
       name.value = '李四'
       age.value = 48
-      job.type = '后端工程师'  // 改了这里
-      job.salary = '40K'  // 改了这里
-      hobby[0] = '学习'
+      job.value.type = '后端工程师'  // 先value再属性
+      job.value.salary = '40K'
     }
 
     // 返回一个对象（常用）
@@ -37,7 +34,6 @@ export default {
       name,
       age, 
       job,
-      hobby,
       changeInfo
     }
   }
